@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant XYZ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #0b0c10;
+            --cream: #f0eadf;
+            --gold: #d4af37;
+            --muted: #9ca09c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--ink);
+            color: var(--cream);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- Floating Characters & Dolls --- */
+        .bg-character {
+            position: absolute;
+            width: 85px;
+            height: auto;
+            opacity: 0.95;
+            pointer-events: none;
+            z-index: 2;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
+        }
+
+        /* Hero Adjustments */
+        .hero .char-left-top { top: 25%; left: 3%; transform: rotate(-6deg); }
+        .hero .char-welcome-e { top: 20%; right: 5%; width: 95px; } 
+        .hero .char-near-button { bottom: 2%; right: 12%; width: 110px; } /* Repositioned to the side */
+
+        /* Story Section Adjustments (Shifted UP and Bigger) */
+        .story-section .char-hungry-left1 { top: 32%; left: 2%; width: 105px; } 
+        .story-section .char-hungry-left2 { top: 65%; left: 8%; width: 105px; }
+        /* Menu Section Adjustments */
+        .menu-section .char-menu-side1 { top: 85%; left: 4%; width: 80px; }
+        .menu-section .char-menu-side2 { top: 85%; right: 4%; width: 80px; }
+        .menu-section .char-below-box { bottom: 1%; left: 50%; transform: translateX(-50%); width: 95px; } 
+
+        /* Footer Adjustments */
+        footer .char-footer-left { top: 15%; left: 0%; width: 80px; }
+        footer .char-footer-right { top: 65%; right: 32%; width: 80px; }
+
+        /* Navigation */
+        .nav-bar {
+            height: 90px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6vw;
+            background: rgba(11, 12, 16, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(240, 234, 223, 0.1);
+        }
+
+        .brand {
+            color: var(--cream);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 0.1em;
+            font-size: 24px;
+            line-height: 0.8;
+        }
+
+        .brand small {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 7px;
+            letter-spacing: 0.28em;
+            color: var(--gold);
+            margin-top: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 42px;
+        }
+
+        .nav-links a, .reserve-link {
+            color: #c1c0b9;
+            text-decoration: none;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: color 0.25s;
+        }
+
+        .nav-links a:hover, .reserve-link:hover {
+            color: var(--gold);
+        }
+
+        .reserve-link {
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            padding: 13px 18px;
+            color: var(--gold);
+        }
+
+        /* 1. Hero Section (Gaps Removed) */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 120px 13vw 40px;
+            background: radial-gradient(ellipse at 78% 48%, rgba(113, 53, 34, 0.35), transparent 42%), 
+                        radial-gradient(ellipse at 12% 82%, rgba(209, 165, 56, 0.05), transparent 30%);
+        }
+
+        .hero-copy {
+            position: relative;
+            z-index: 5;
+            max-width: 580px;
+        }
+
+        .eyebrow {
+            color: var(--gold);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(54px, 7vw, 100px);
+            font-weight: 500;
+            line-height: 0.85;
+            letter-spacing: -0.055em;
+            color: #f3eee6;
+        }
+
+        .hero h1 em, .story-section em, .menu-heading em, footer em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .hero-description {
+            max-width: 310px;
+            font-size: 13px;
+            line-height: 1.8;
+            color: var(--muted);
+            margin: 20px 0 20px;
+        }
+
+        .scroll-prompt-highlight {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            color: var(--gold);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            font-size: 14px;
+            font-weight: 800;
+            background: rgba(212, 175, 55, 0.12);
+            padding: 12px 18px;
+            border-left: 3px solid var(--gold);
+            width: fit-content;
+            margin-top: 10px;
+            border-radius: 0 6px 6px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        /* 2. Story Section (Reduced Vertical Gap) */
+        .story-section {
+            padding: 50px 13vw 40px;
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-mark {
+            color: var(--gold);
+            font-size: 9px;
+            letter-spacing: 0.25em;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+            padding-bottom: 10px;
+        }
+
+        .story-layout {
+            display: grid;
+            grid-template-columns: 1fr 2.2fr;
+            gap: 4vw;
+            padding-top: 30px;
+            align-items: start;
+        }
+
+        .side-note {
+            color: #666a67;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 20px;
+            line-height: 1.3;
+        }
+
+        .story-layout h2, .menu-heading h2, footer h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(42px, 5.5vw, 76px);
+            font-weight: 500;
+            line-height: 0.88;
+            letter-spacing: -0.045em;
+        }
+
+        .story-text {
+            max-width: 420px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+            margin-top: 20px;
+        }
+
+        /* 3. Culinary Codex Book Section */
+        .menu-section {
+            background: #121419;
+            padding: 60px 13vw;
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .menu-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 35px;
+        }
+
+        .book-cover {
+            width: min(450px, 80vw);
+            aspect-ratio: 1.4 / 1;
+            display: block;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #2a1416, #5a281c 54%, #271518);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            box-shadow: 14px 14px 0 #201b1a, 0 15px 50px rgba(0, 0, 0, 0.6);
+            color: var(--cream);
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+        }
+
+        .book-cover:hover {
+            transform: translateY(-5px);
+        }
+
+        .book-cover:before {
+            content: "";
+            position: absolute;
+            inset: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+        }
+
+        .cover-title {
+            position: absolute;
+            top: 22%;
+            left: 0;
+            right: 0;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(48px, 7vw, 80px);
+            line-height: 0.78;
+        }
+
+        .cover-instruction {
+            position: absolute;
+            bottom: 25px;
+            left: 0;
+            right: 0;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        /* Book Modal Window */
+        .book-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(5, 6, 8, 0.94);
+            place-items: center;
+            padding: 50px 20px;
+        }
+
+        .book-modal.active {
+            display: grid;
+        }
+
+        .book-close {
+            position: absolute;
+            right: 5vw;
+            top: 5vh;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            background: none;
+            color: var(--gold);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .book-spread {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: min(850px, 92vw);
+            min-height: 480px;
+            box-shadow: 0 30px 100px #000;
+        }
+
+        .book-page {
+            position: relative;
+            overflow: hidden;
+            background: #f1e9da;
+            color: #201c18;
+        }
+
+        .image-page img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .text-page {
+            padding: 60px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .text-page h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(40px, 5vw, 64px);
+            line-height: 0.8;
+            margin: 15px 0;
+        }
+
+        .book-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .book-controls button {
+            background: none;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            color: var(--gold);
+            border-radius: 50%;
+            width: 39px;
+            height: 39px;
+            cursor: pointer;
+        }
+
+        /* 4. Footer Section */
+        footer {
+            padding: 60px 13vw 30px;
+            background: radial-gradient(ellipse at 50% 0%, #252116, transparent 55%);
+            border-top: 1px solid rgba(212, 175, 55, 0.16);
+            text-align: center;
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .footer-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            border-top: 1px solid rgba(240, 234, 223, 0.12);
+            border-bottom: 1px solid rgba(240, 234, 223, 0.12);
+            padding: 30px 0;
+            margin-top: 35px;
+            text-align: left;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            color: #656762;
+            font-size: 9px;
+            text-transform: uppercase;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fixed Header -->
+    <nav class="nav-bar">
+        <a class="brand" href="#home">
+            <span>XYZ</span>
+            <small>RESTAURANT</small>
+        </a>
+        <div class="nav-links">
+            <a href="#story">Our story</a>
+            <a href="#menu">Menu</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <a class="reserve-link" href="#contact">Reserve a table ↗</a>
+    </nav>
+
+    <!-- SECTION 1: Hero -->
+    <section class="hero" id="home">
+        <img src="https://i.ibb.co/d0cfRCRx/Cutouts-1786663007433.png" class="bg-character char-left-top" alt="" aria-hidden="true">
+        <img src="https://i.ibb.co/C5DfG9Jk/Cutouts-1786662959578.png" class="bg-character char-welcome-e" alt="" aria-hidden="true">
+        <!-- Doll placed beside the scroll button -->
+        <img src="https://i.ibb.co/fg8K9qH/Cutouts-1786662895420.png" class="bg-character char-near-button" alt="" aria-hidden="true">
+
+        <div class="hero-copy">
+            <p class="eyebrow">✦ Est. 2024 · Mumbai</p>
+            <h1>Welcome to<br><em>Restaurant</em> XYZ</h1>
+            <p class="hero-description">A little world of warm light, honest ingredients, and unforgettable evenings.</p>
+            
+            <a class="scroll-prompt-highlight" href="#menu">
+                <span>SCROLL</span>
+                <span>TO</span>
+                <span>EXPLORE MENU ↓</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- SECTION 2: Story -->
+    <section class="story-section" id="story">
+        <!-- Two Dolls (Resized & Shifted Upwards) -->
+        <img src="https://i.ibb.co/4ZSBPtyC/Cutouts-1786662829183.png" class="bg-character char-hungry-left1" alt="" aria-hidden="true">
+        <img src="https://i.ibb.co/kg0RXrzr/Cutouts-1786662891189.png" class="bg-character char-hungry-left2" alt="" aria-hidden="true">
+
+        <div class="section-mark">THE XYZ EXPERIENCE</div>
+        <div class="story-layout">
+            <p class="side-note">Made for lingering<br>conversations.</p>
+            <div>
+                <p class="eyebrow">A table for every story</p>
+                <h2>Come hungry.<br><em>Leave glowing.</em></h2>
+                <p class="story-text">We believe the best meals are never just about what is on the plate. XYZ is a love letter to gathering — a room where every detail is made to make you stay.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: Culinary Codex Book Menu -->
+    <section class="menu-section" id="menu">
+        <img src="https://i.ibb.co/KxPbgXng/Cutouts-1786662853917.png" class="bg-character char-menu-side1" alt="" aria-hidden="true">
+        <img src="https://i.ibb.co/d0cfRCRx/Cutouts-1786663007433.png" class="bg-character char-menu-side2" alt="" aria-hidden="true">
+        <img src="https://i.ibb.co/N6SZQs0w/Cutouts-1786663058952.png" class="bg-character char-below-box" alt="" aria-hidden="true">
+
+        <div class="menu-heading">
+            <div>
+                <p class="eyebrow">A little something for everyone</p>
+                <h2>The Culinary <em>Codex</em></h2>
+            </div>
+            <p>Turn a page. Find a mood.<br>Take your time.</p>
+        </div>
+
+        <div class="book-cover" onclick="toggleBook(true)">
+            <span class="cover-title">The<br><em>menu</em></span>
+            <span class="cover-instruction">TAP TO OPEN <b>↗</b></span>
+        </div>
+    </section>
+
+    <!-- 4-Page Book Overlay/Modal -->
+    <div class="book-modal" id="bookModal">
+        <button class="book-close" onclick="toggleBook(false)">✕</button>
+        <div>
+            <div class="book-spread">
+                <div class="book-page image-page">
+                    <img id="pageImg" src="https://images.unsplash.com/photo-1600663791817-d74f5196ba29?auto=format&fit=crop&w=1200&q=85" alt="Starter">
+                </div>
+                <div class="book-page text-page">
+                    <p class="eyebrow" id="pageKicker">delicate beginnings</p>
+                    <h3 id="pageTitle">Starters</h3>
+                    <p id="pageText">Small plates, bright herbs, and a little anticipation before the feast.</p>
+                </div>
+            </div>
+            <div class="book-controls">
+                <button onclick="changePage(-1)">←</button>
+                <span id="pageIndicator" style="color: var(--gold); font-size: 12px;">01 / 04</span>
+                <button onclick="changePage(1)">→</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 4: Footer -->
+    <footer id="contact">
+        <img src="https://i.ibb.co/C5DfG9Jk/Cutouts-1786662959578.png" class="bg-character char-footer-left" alt="" aria-hidden="true">
+        <img src="https://i.ibb.co/fg8K9qH/Cutouts-1786662895420.png" class="bg-character char-footer-right" alt="" aria-hidden="true">
+
+        <div>
+            <p class="eyebrow">Until next time</p>
+            <h2>Thank you for visiting<br><em>Restaurant XYZ</em></h2>
+        </div>
+        <div class="footer-details">
+            <div>
+                <span style="color: var(--gold); font-size: 10px; text-transform: uppercase;">Come find us</span>
+                <p style="color: var(--muted); font-size: 12px; margin-top: 10px;">Bandra West, Culinary Strip<br>Mumbai, India — 400050</p>
+            </div>
+            <div>
+                <span style="color: var(--gold); font-size: 10px; text-transform: uppercase;">Say hello</span>
+                <p style="color: var(--muted); font-size: 12px; margin-top: 10px;">hello@restaurantxyz.com<br>+91 98765 43210</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2024 Restaurant XYZ</span>
+            <span>XYZ</span>
+        </div>
+    </footer>
+
+    <!-- Interactive Book Script -->
+    <script>
+        const pages = [
+            { title: "Starters", kicker: "delicate beginnings", text: "Small plates, bright herbs, and a little anticipation before the feast.", image: "https://images.unsplash.com/photo-1600663791817-d74f5196ba29?auto=format&fit=crop&w=1200&q=85" },
+            { title: "Main Course", kicker: "the heart of the table", text: "Fire, spice, and slow craft come together in our signature plates.", image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1200&q=85" },
+            { title: "Desserts", kicker: "a sweet finale", text: "Silken textures and delicate sweetness to linger a little longer.", image: "https://images.unsplash.com/photo-1577969181928-69c4e557c99a?auto=format&fit=crop&w=1200&q=85" },
+            { title: "Drinks", kicker: "raise a glass", text: "Botanical pours, sparkling moments, and stories worth toasting.", image: "https://images.unsplash.com/photo-1563223771-5fe4038fbfc9?auto=format&fit=crop&w=1200&q=85" }
+        ];
+
+        let currentPage = 0;
+
+        function toggleBook(open) {
+            document.getElementById('bookModal').classList.toggle('active', open);
+        }
+
+        function changePage(direction) {
+            currentPage = (currentPage + direction + pages.length) % pages.length;
+            const pageData = pages[currentPage];
+            
+            document.getElementById('pageImg').src = pageData.image;
+            document.getElementById('pageKicker').innerText = pageData.kicker;
+            document.getElementById('pageTitle').innerText = pageData.title;
+            document.getElementById('pageText').innerText = pageData.text;
+            document.getElementById('pageIndicator').innerText = `0${currentPage + 1} / 04`;
+        }
+    </script>
+</body>
+</html>
